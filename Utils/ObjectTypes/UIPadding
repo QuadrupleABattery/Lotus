@@ -1,0 +1,17 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	PaddingBottom : UDim,
+	PaddingTop : UDim,
+	PaddingLeft : UDim,
+	PaddingRight : UDim,
+}
+
+export type Signals = shared.Instance_Signals
+
+
+return {
+	Gui = Instance.new("UIPadding", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
