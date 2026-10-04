@@ -1,0 +1,14 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	AspectRatio : number,
+	AspectType : Enum.AspectType,
+	DominantAxis : Enum.DominantAxis,
+}
+export type Signals = shared.Instance_Signals
+
+return {
+	Gui = Instance.new("UIAspectRatioConstraint", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
