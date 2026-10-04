@@ -1,0 +1,21 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	CellPadding:UDim2,
+	CellSize:UDim2,
+	FillDirectionMaxCells:number,
+	StartCorner:Enum.StartCorner,
+	FillDirection:Enum.FillDirection,
+	HorizontalAlignment:Enum.HorizontalAlignment,
+	SortOrder:Enum.SortOrder,
+	VerticalAlignment:Enum.VerticalAlignment,
+}
+
+export type Signals = shared.Instance_Signals
+
+
+return {
+	Gui = Instance.new("UIGradient", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
