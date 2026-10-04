@@ -1,0 +1,15 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	FlexMode:Enum.UIFlexMode,
+	GrowRatio:number,
+	ItemLineAlignment:Enum.ItemLineAlignment,
+	ShrinkRatio:number,
+}
+export type Signals = shared.Instance_Signals
+
+return {
+	Gui = Instance.new("UIFlexItem", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
