@@ -1,0 +1,173 @@
+--!strict
+
+local Signal = require("./Utils/Signal")
+local ObjectTypes = require("./Utils/ObjectTypes")
+local LotusTween = require("./Tween")
+
+export type LotusObject<
+	T1 = Instance,
+	T2 = {[string] : any},
+	T3 = {[string] : RBXScriptSignal}, 
+	T4 = {[string] : any},
+	T5 = {[string] : any}
+> = {
+	Gui            : T1,
+	Children       : T4,
+	Values         : T5,
+	Observations   : {[string] : Signal.Signal<LotusObject<T1, T2, T3, T4, T5>, any>},
+	
+	_destroyed     : boolean?,
+	
+	SetParent      : (self : LotusObject<T1, T2, T3, T4, T5>, parent     : Instance | any                                                      ) -> (),
+	SetProperties  : (self : LotusObject<T1, T2, T3, T4, T5>, properties : T2 & {[any] : any}                                                  ) -> LotusObject<T1, T2, T3, T4, T5>,
+	SetProperty    : (self : LotusObject<T1, T2, T3, T4, T5>, property   : keyof<T2>, value : any                                              ) -> (),
+	GetProperty    : (self : LotusObject<T1, T2, T3, T4, T5>, property   : keyof<T2>                                                           ) -> (),
+	GetSignal      : (self : LotusObject<T1, T2, T3, T4, T5>, signal     : keyof<T3>                                                           ) -> RBXScriptSignal,
+	Observe        : (self : LotusObject<T1, T2, T3, T4, T5>, value      : keyof<T5>, callback : Callback<LotusObject<T1, T2, T3, T4, T5>, any>) -> (),
+	UpdateValue    : (self : LotusObject<T1, T2, T3, T4, T5>, name       : keyof<T5>, value : any, ignoreSameValue : boolean?                  ) -> (),
+	Tween          : (self : LotusObject<T1, T2, T3, T4, T5>, tweenInfo  : TweenInfo                                                           ) -> LotusTween.ConstructorFunction<T2>,
+	Destroy        : (self : LotusObject<T1, T2, T3, T4, T5>                                                                                   ) -> (),
+}
+
+type Callback<T...> = (T...) -> ()
+
+local Module = {}
+
+local warnMsg = require("./Utils/warn.lua")
+local writeProperty = require("./Utils/writeProperty.lua")
+local getProperty = require("./Utils/getProperty.lua")
+
+function Module.new<T1, T2, T3, T4, T5>(class : ObjectTypes.GenericClass<T1, T2, T3>, children : T4?, values : T5?) : LotusObject<T1, T2, T3, T4, T5>
+	local guiSource = class.Gui
+	local clone : T1
+	
+	assert(typeof(guiSource) == "Instance")
+	
+	clone = guiSource:Clone()
+
+	return {
+		Gui = clone,
+		Observations = {},
+		Values = values or {},
+		Children = children or {},
+
+		SetParent = Module.SetParent,
+		SetProperties = Module.SetProperties,
+		SetProperty = Module.SetProperty,
+		GetProperty = Module.GetProperty,
+		GetSignal = Module.GetSignal,
+		Observe = Module.Observe,
+		UpdateValue = Module.UpdateValue,
+		Tween = Module.Tween,
+		Destroy = Module.Destroy,
+	}
+end
+
+function Module.SetParent(self : LotusObject, parent : Instance | LotusObject | nil) : ()
+	if typeof(parent) == "table" then
+		self.Gui.Parent = parent.Gui
+	elseif typeof(parent) == "Instance" or typeof(parent) == "nil" then
+		self.Gui.Parent = parent
+	end
+	
+	return
+end
+
+function Module.SetProperties<T1, T2, T3, T4, T5>(self : LotusObject<T1, T2, T3, T4, T5>, properties : {[string] : any}) : LotusObject<T1, T2, T3, T4, T5>
+	local gui = self.Gui
+	
+	for property, value in properties do
+		writeProperty(gui, property, value)
+	end
+	
+	return self
+end
+
+function Module.SetProperty<T1, T2, T3, T4, T5>(self : LotusObject<T1, T2, T3, T4, T5>, property : string, value : any) : ()
+	writeProperty(self.Gui, property, value); return
+end
+
+function Module.GetProperty<T1, T2, T3, T4, T5>(self : LotusObject<T1, T2, T3, T4, T5>, property : string) : any
+	return getProperty(self.Gui, property)
+end
+
+
+function Module.GetSignal<T1, T2, T3, T4, T5>(self : LotusObject<T1, T2, T3, T4, T5>, signal : string) : RBXScriptSignal
+	local signal = getProperty(self.Gui, signal)
+	
+	assert(typeof(signal) == "RBXScriptSignal")
+	
+	return signal
+end
+
+function Module.Observe<T1, T2, T3, T4, T5, T...>(self : LotusObject<T1, T2, T3, T4, T5>, value : string, callback : Callback<LotusObject<T1, T2, T3, T4, T5>, any>) : ()
+	local valueTable = self.Values :: {[string] : any}
+	
+	if valueTable[value] == nil then
+		return
+	end
+	
+	local signal = self.Observations[value]
+	
+	if signal == nil then
+		signal = Signal.new()
+		self.Observations[value] = signal
+	end
+
+	signal:Connect(callback)
+	
+	return
+end
+
+function Module.UpdateValue<T1, T2, T3, T4, T5>(self : LotusObject<T1, T2, T4, T4, T5>, name : string, value : any, ignoreSameValue : boolean?) : ()
+	local valueTable = self.Values :: {[string] : any}
+	
+	if valueTable[name] ~= value then
+		valueTable[name] = value
+		
+		if ignoreSameValue then
+			return
+		end
+	end
+	
+	local signal = self.Observations[name]
+	if signal == nil then
+		return
+	end
+	
+	signal:Fire(self, value)
+	
+	return
+end
+
+function Module.Tween<T1, T2, T3, T4, T5>(self : LotusObject<T1, T2, T3, T4, T5>, tweenInfo : TweenInfo) : LotusTween.ConstructorFunction<T2>
+	local tween = LotusTween.new(self.Gui)
+	
+	return tween:AndThen(tweenInfo)
+end
+
+function Module.Destroy<T1, T2, T3, T4, T5>(self : LotusObject<T1, T2, T3, T4, T5>) : ()
+	if self._destroyed then
+		return
+	end
+	
+	for _, child in self.Children :: {[string] : LotusObject} do
+		child:Destroy()
+	end
+	
+	for _, observation in self.Observations do
+		observation:DisconnectAll()
+	end
+	
+	self.Children = nil :: any
+	self.Values = nil :: any
+	
+	table.clear(self.Observations)
+	
+	local gui = self.Gui :: Instance
+	gui:Destroy()
+	
+	return
+end
+
+return Module
