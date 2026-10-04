@@ -1,0 +1,17 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	ApplyStrokeMode : Enum.ApplyStrokeMode,
+	BorderStrokePosition : Enum.BorderStrokePosition,
+	Color : Color3,
+	LineJoinMode : Enum.LineJoinMode,
+	Thickness : number,
+	Transparency : number,
+}
+export type Signals = shared.Instance_Signals
+
+return {
+	Gui = Instance.new("UIStroke", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
