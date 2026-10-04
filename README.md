@@ -1,15 +1,20 @@
 # Lotus
 A full intellisense and --!strict compatible declarative UI Module designed for Roblox  
+  
 I was getting into declarative UI and wanted to try ReactLua but it killed the studio intellisense. Then I tried to use Fusion but it was weird and I was using it wrong but I liked the syntax so I just took it and made my own.  
   
 
 ## Setup
 The hierarchy mostly follows the "Module" directory of this repository.  
+  
 Directories that contain a init.luau file means that the directory exists as a ModuleScript with init.luau being its source  
+  
 I purposefully omitted adding file extension names to files to make the names of every file more clear as I like appending .lua to the end of helper function ModuleScripts, but it does make the source code a bit more annoying to read.  
+  
 Have fun copying every construct type lol.  
+  
 Maybe I'll upload a version on Roblox sometime but I don't feel like it right now.  
-
+  
 ## Constructors
 ### .create(objectType : ObjectType)  
 Takes in a constructor object and returns a constructor function for a LotusObject of that class.  
