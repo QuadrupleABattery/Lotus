@@ -1,0 +1,17 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & shared.GuiObject_Prop & {
+	CurrentCamera : Camera,
+	Ambient : Color3,
+	LightColor : Color3,
+	LightDirection : Vector3,
+}
+
+export type Signals = shared.Instance_Signals & shared.Gui_Signals
+
+	
+return {
+	Gui = Instance.new("ViewportFrame", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,
+}
