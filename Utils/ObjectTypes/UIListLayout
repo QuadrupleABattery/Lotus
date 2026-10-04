@@ -1,0 +1,19 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	FillDirection : Enum.FillDirection,
+	HorizontalAlignment : Enum.HorizontalAlignment,
+	HorizontalFlex : Enum.UIFlexAlignment,
+	Padding : UDim,
+	VerticalAlignment : Enum.VerticalAlignment,
+	VerticalFlex : Enum.UIFlexAlignment,
+}
+
+export type Signals = shared.Instance_Signals
+
+
+return {
+	Gui = Instance.new("UIListLayout", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
