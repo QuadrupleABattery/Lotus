@@ -1,0 +1,17 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	Color : ColorSequence,
+	Enabled : boolean,
+	Transparency : NumberSequence,
+	Offset : Vector2,
+	Rotation : number,
+}
+export type Signals = shared.Instance_Signals
+
+return {
+	Gui = Instance.new("UIGradient", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,
+	
+}
