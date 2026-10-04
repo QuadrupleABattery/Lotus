@@ -1,0 +1,14 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	MaxSize : Vector2,
+	MinSize : Vector2,
+}
+
+export type Signals = shared.Instance_Signals
+
+return {
+	Gui = Instance.new("UISizeConstraint", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,
+}
