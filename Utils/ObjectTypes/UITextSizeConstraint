@@ -1,0 +1,15 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	MaxTextSize:number,
+	MinTextSize:number,
+}
+
+export type Signals = shared.Instance_Signals
+
+	
+return {
+	Gui = Instance.new("UITextSizeConstraint", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
