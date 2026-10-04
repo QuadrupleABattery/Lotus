@@ -10,14 +10,14 @@ Have fun copying every construct type lol.
 Maybe I'll upload a version on Roblox sometime but I don't feel like it right now.  
 
 ## Constructors
-.create(objectType : ObjectType)  
+### .create(objectType : ObjectType)  
 Takes in a constructor object and returns a constructor function for a LotusObject of that class.  
   
-.native(objectType : ObjectType)  
+### .native(objectType : ObjectType)  
 Takes in a constructor object and returns a constructor function for a native Roblox Gui Instance of that class.  
 Intended for when the additional wrapper functionality isn't necessary (such as for Gui Modifier Instances like layouts & constraints)
   
-.scene(name : string)  
+### .scene(name : string)  
 Takes in a string and returns a LotusObject of class ScreenGui with that name parented to PlayerGui  
 Equivalent to  
 Lotus.create(Lotus.Objects.ScreenGui) {  
