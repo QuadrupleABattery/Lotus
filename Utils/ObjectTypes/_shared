@@ -1,0 +1,92 @@
+export type Instance_Prop = {
+	Name:string,
+	Parent:Instance,
+}
+
+export type GuiObject_Prop = {
+	Active:boolean,
+	AnchorPoint:Vector2,
+	AutomaticSize:Enum.AutomaticSize,
+	BackgroundColor3:Color3,
+	BackgroundTransparency:number,
+	ClipsDescendants:boolean,
+	Interactable:boolean,
+	LayoutOrder:number,
+	Position:UDim2,
+	Rotation:number,
+	Size:UDim2,
+	SizeConstraint:Enum.SizeConstraint,
+	Visible:boolean,
+	ZIndex:number,
+}
+
+export type textGui_Prop = {
+	Font : Enum.Font,
+	FontFace : Font,
+	LineHeight : number,
+	RichText : boolean,
+	Text : string,
+	TextColor3 : Color3,
+	TextDirection : Enum.TextDirection,
+	TextScaled : boolean,
+	TextSize : number,
+	TextTransparency : number,
+	TextWrapped : boolean,
+	TextXAlignment : Enum.TextXAlignment,
+	TextYAlignment : Enum.TextYAlignment,
+	MaxVisibleGraphemes:number,
+}
+
+export type imageGui_Prop = {
+	Image : string,
+	ImageColor3 : Color3,
+	ImageRectOffset : Vector2,
+	ImageRectSize : Vector2,
+	ImageTransparency : number,
+	IsLoaded : boolean,
+	ResampleMode : Enum.ResamplerMode,
+	ScaleType : Enum.ScaleType,
+	SliceCenter : Rect,
+	SliceScale : number,
+	TileSize : UDim2,
+}
+
+export type Instance_Signals = {
+	AncestryChanged : RBXScriptSignal,
+	AttributeChanged : RBXScriptSignal,
+	ChildAdded : RBXScriptSignal,
+	ChildRemoved : RBXScriptSignal,
+	DescendantAdded : RBXScriptSignal,
+	DescendantRemoving : RBXScriptSignal,
+	Destroying : RBXScriptSignal,
+	Changed : RBXScriptSignal
+}
+
+export type Gui_Signals = {
+	MouseEnter : RBXScriptSignal,
+	MouseLeave : RBXScriptSignal,
+	MouseMoved : RBXScriptSignal,
+	MouseWheelBackward : RBXScriptSignal,
+	MouseWheelForward : RBXScriptSignal,
+	SelectionGained : RBXScriptSignal,
+	SelectionLost : RBXScriptSignal,
+	TouchLongPress : RBXScriptSignal,
+	TouchPan : RBXScriptSignal,
+	TouchPinch : RBXScriptSignal,
+	TouchRotate : RBXScriptSignal,
+	TouchSwipe : RBXScriptSignal,
+	TouchTap : RBXScriptSignal,
+}
+
+export type GuiButton_Signals = {
+	Activated : RBXScriptSignal,
+	MouseButton1Click : RBXScriptSignal,
+	MouseButton1Down : RBXScriptSignal,
+	MouseButton1Up : RBXScriptSignal,
+	MouseButton2Click : RBXScriptSignal,
+	MouseButton2Down : RBXScriptSignal,
+	MouseButton2Up : RBXScriptSignal,
+	SecondaryActivated : RBXScriptSignal,
+}
+
+return {}
