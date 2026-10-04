@@ -1,0 +1,16 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	BottomLeftRadius : UDim,
+	BottomRightRadius : UDim,
+	CornerRadius : UDim,
+	TopLeftRadius : UDim,
+	TopRightRadius : UDim,
+}
+export type Signals = shared.Instance_Signals
+
+return {
+	Gui = Instance.new("UICorner", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
