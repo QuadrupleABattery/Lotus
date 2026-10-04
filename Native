@@ -1,0 +1,37 @@
+--!strict
+
+local Signal = require("./Utils/Signal")
+local ObjectTypes = require("./Utils/ObjectTypes")
+
+local Module = {}
+
+local warnMsg = require("./Utils/warn.lua")
+local writeProperty = require("./Utils/writeProperty.lua")
+
+function Module.new<T1, T2, T3, T4>(class : ObjectTypes.GenericClass<T1, T2, T3>, properties : {[string] : any} & {Children : T4}) : T1 & T4
+	local guiSource = class.Gui; assert(typeof(guiSource) == "Instance")
+	local clone = guiSource:Clone()
+	
+	local children : {[string] : Instance | {[any] : any}} = properties.Children
+
+	if children ~= nil then
+		for name, child in children do
+			if typeof(child) == "table" then
+				warn("Native gui objects can only contain other native objects!"); continue
+			end
+
+			child.Name = name
+			child.Parent = clone
+		end
+		
+		properties.Children = nil	
+	end
+	
+	for property, value in properties do
+		writeProperty(clone, property, value)
+	end
+	
+	return clone
+end
+
+return Module
