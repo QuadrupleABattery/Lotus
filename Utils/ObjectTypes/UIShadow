@@ -1,0 +1,19 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	BlurRadius : UDim,
+	Color : Color3,
+	Offset : UDim2,
+	Spread : UDim2,
+	Transparency : number,
+	ZIndex : number,
+}
+
+export type Signals = shared.Instance_Signals
+
+
+return {
+	Gui = Instance.new("UIShadow", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
