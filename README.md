@@ -25,7 +25,7 @@ Lotus.create(Lotus.Objects.ScreenGui) {
   Parent = Player.PlayerGui,  
 }  
   
-Constructor Function  
+### Constructor Function  
 Returned by .create() and .native()  
   
 Takes in a properties table to instantialize the UI instance with in the form of {PropertyName = PropertyValue} :: {[string] : any}  
