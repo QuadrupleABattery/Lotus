@@ -1,0 +1,28 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & shared.GuiObject_Prop & {
+	AutomaticCanvasSize:Enum.AutomaticSize?,
+	BottomImage:string?,
+	CanvasPosition:Vector2?,
+	CanvasSize:UDim2?,
+	ElasticBehavior:Enum.ElasticBehavior?,
+	HorizontalScrollBarInset:Enum.ScrollBarInset?,
+	MidImage:string?,
+	ScrollBarImageColor3:Color3?,
+	ScrollBarImageTransparency:number?,
+	ScrollBarThickness:number?,
+	ScrollingDirection:Enum.ScrollingDirection?,
+	ScrollingEnabled:boolean?,
+	TopImage:string?,
+	VerticalScrollBarInset:Enum.ScrollBarInset?,
+	VerticalScrollBarPosition:Enum.VerticalScrollBarPosition?,
+}
+
+export type Signals = shared.Instance_Signals & shared.Gui_Signals
+
+
+return {
+	Gui = Instance.new("ScrollingFrame", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,
+}
