@@ -4,8 +4,9 @@ I was getting into declarative UI and wanted to try ReactLua but it killed the s
   
 
 ## Setup
-The hierarchy mostly follows the module directory of the repository.  
+The hierarchy mostly follows the "Module" directory of this repository.  
 Directories that contain a init.luau file means that the directory exists as a ModuleScript with init.luau being its source  
+I purposefully omitted adding file extension names to files to make the names of every file more clear as I like appending .lua to the end of helper function ModuleScripts, but it does make the source code a bit more annoying to read.  
 Have fun copying every construct type lol.  
 Maybe I'll upload a version on Roblox sometime but I don't feel like it right now.  
 
