@@ -1,0 +1,19 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & shared.GuiObject_Prop & {
+	Adornee : BasePart?,
+	SizeOffset : Vector2?,
+	ExtentsOffset : Vector3?,
+	ExtentsOffsetWorldSpace : Vector3?,
+	StudsOffset : Vector3?,
+	StudsOffsetWorldSpace : Vector3?,
+	LightInfluence : number?,
+}
+
+export type Signals = shared.Instance_Signals
+
+return {
+	Gui = Instance.new("BillboardGui", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,
+}
