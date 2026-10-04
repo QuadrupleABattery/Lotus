@@ -1,0 +1,11 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & shared.GuiObject_Prop & shared.textGui_Prop
+export type Signals = shared.Instance_Signals & shared.Gui_Signals
+
+
+return {
+	Gui = Instance.new("TextLabel", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,	
+}
