@@ -1,0 +1,17 @@
+local shared = require("./_shared")
+
+export type Properties = shared.Instance_Prop & {
+	Enabled : boolean?,
+	DisplayOrder : number?,
+	SafeAreaCompatibility:Enum.SafeAreaCompatibility?,
+	ScreenInsets:Enum.ScreenInsets?,
+	IgnoreGuiInset:boolean?,
+}
+
+export type Signals = shared.Instance_Signals
+
+return {
+	Gui = Instance.new("ScreenGui", script),
+	Properties = nil :: Properties,
+	Signals = nil :: Signals,
+}
