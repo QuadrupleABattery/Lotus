@@ -1,0 +1,88 @@
+--!strict
+
+local TweenService = game:GetService("TweenService")
+
+export type LotusTween<T1> = {
+	_instance 	  : Instance,
+	_tweens 	  : {Tween},
+	_cancelled    : boolean?,
+	_currentTween : Tween?,
+	
+	AndThen 	  : (self : LotusTween<T1>, tweenInfo : TweenInfo  ) -> ConstructorFunction<T1>,
+	Play 		  : (self : LotusTween<T1>, callback  : (() -> ())?) -> (),
+	Destroy 	  : (self : LotusTween<T1>                         ) -> (),
+}
+
+export type ConstructorFunction<T1> = (T1 & {[any] : any}) -> LotusTween<T1>
+
+local Module = {}
+
+local warnMsg = require("./Utils/warn.lua")
+
+function Module.new<T1>(instance : Instance) : LotusTween<T1>
+	return {
+		_instance = instance,
+		_tweens = {},
+		
+		AndThen = Module.AndThen,
+		Play = Module.Play,
+		Destroy = Module.Destroy,
+	}
+end
+
+function Module.AndThen<T1>(self : LotusTween<T1>, tweenInfo : TweenInfo) : ConstructorFunction<T1>
+	local lotusTween = self
+	
+	return function(properties : T1)
+		table.insert(lotusTween._tweens, TweenService:Create(self._instance, tweenInfo, properties))
+		
+		return lotusTween
+	end
+end
+
+function Module.Play<T1>(self : LotusTween<T1>, callback : (() -> ())?) : ()
+	if self._cancelled then
+		warnMsg("Tried to call Play on cancelled LotusTween"); return
+	end
+	
+	task.defer(function()
+		for _, tween in self._tweens do
+			self._currentTween = tween
+			
+			tween:Play()
+			tween.Completed:Wait()
+			
+			if self._cancelled then
+				break
+			end
+		end
+		
+		if callback ~= nil then
+			callback()
+		end
+		
+		self:Destroy()
+	end)
+	
+	return
+end
+
+function Module.Cancel<T1>(self : LotusTween<T1>) : ()
+	self._cancelled = true
+	
+	if self._currentTween then
+		self._currentTween:Cancel()
+	end
+	
+	return
+end
+
+function Module.Destroy<T1>(self : LotusTween<T1>) : ()
+	table.clear(self._tweens)
+	self._currentTween = nil
+	self._cancelled = true
+	
+	return
+end
+
+return Module
